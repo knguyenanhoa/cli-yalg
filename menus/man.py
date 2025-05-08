@@ -27,16 +27,16 @@ from menus import main_menu
 
 @navigable_menus.nav_stack
 def man(NAVSTACK, STATE):
-    navigable_menus.make_header('main >> help')
+    navigable_menus.make_header('main > man')
     print(' ')
     print('Navigation is vim-like')
-    print('UP: k      DOWN: j      LEFT: j      RIGHT: l')
-    print('BOTTOM: G, J            TOP: gg, K')
+    print('UP:  k       DOWN:   j      LEFT: h      RIGHT: l')
+    print('TOP: K, gg   BOTTOM: J, G')
     print(' ')
-    print('DOWNLOAD: d (where applicable)')
-    print('SELECT:   o, enter')
-    print('BACK:     q')
-    print('EXIT:   esc (works on most screens)')
+    print('SELECT: o, <CR>')
+    print('BACK:   q')
+    print('EXIT:   <Esc> (works on most screens)')
+    print('        if all else fails, Ctrl + C')
     print('-----------------------------------------------')
     print('Press any key to return')
 
