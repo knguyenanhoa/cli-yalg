@@ -25,7 +25,7 @@ import sys, os, copy, atexit
 
 # THESE ARE USED, DO NOT REMOVE
 # maybe implement an autoloader here....
-from menus import main_menu, man
+from menus import main_menu, man, char
 from components import navigable_menus, store
 
 def route(action, NAVSTACK, STATE):
@@ -49,21 +49,17 @@ def init():
 
     try:
         os.mkdir("./data")
-        #  os.mkdir("./data/summary")
-        #  os.mkdir("./data/pdf")
-        #  os.mkdir("./data/txt")
-        #  os.mkdir("./to-read") #put things to read in here
     except:
         pass
 
     #check dependencies
-    #  try:
-        # import requests, atoma
+    try:
+        import requests
         # from pdfminer.high_level import extract_text
         # from sklearn.feature_extraction.text import TfidfVectorizer
         # import numpy as np
-    #  except:
-        #  print('dependencies not satisfied')
+    except:
+        print('dependencies not satisfied')
 
 
 if __name__ == '__main__':

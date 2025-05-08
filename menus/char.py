@@ -26,19 +26,41 @@ from components import navigable_menus
 from menus import main_menu
 
 @navigable_menus.nav_stack
-def man(NAVSTACK, STATE):
-    navigable_menus.make_header('main > man')
-    print(' ')
-    print('Navigation is vim-like')
-    print('UP:  k       DOWN:   j      LEFT: h      RIGHT: l')
-    print('TOP: K, gg   BOTTOM: J, G')
-    print(' ')
-    print('SELECT: o, <CR>')
-    print('BACK:   q')
-    print('EXIT:   <Esc> (works on most screens)')
-    print('        if all else fails, Ctrl + C')
-    print('-----------------------------------------------')
-    print('Press any key to return')
+def char(NAVSTACK, STATE):
+    categories = [
+        ('char', 'stats'),
+    ]
 
-    navigable_menus.getch()
-    return main_menu.back(NAVSTACK, STATE)
+    action, STATE = navigable_menus.create(
+        categories + [
+            ('main_menu', 'back'),
+            ('main_menu', 'back_to_main')
+        ], header='char > index', STATE=STATE
+    )
+    return action, NAVSTACK, STATE
+
+@navigable_menus.nav_stack
+def stats(NAVSTACK, STATE):
+    content = """
+    Name: {name}
+
+    Str: {str}
+    Dex: {dex}
+    Int: {int}
+    """.format(
+        name='test',
+        str=50,
+        dex=100,
+        int=200,
+    )
+
+    action, STATE = navigable_menus.create(
+        [
+            ('main_menu', 'back'),
+            ('main_menu', 'back_to_main')
+        ],
+        header='char > stats',
+        STATE=STATE,
+        after_content=content
+    )
+    return action, NAVSTACK, STATE

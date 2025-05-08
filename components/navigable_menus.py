@@ -64,9 +64,13 @@ def terminate():
 def before_and_after_content(before_content=None, after_content=None):
     def wrapper(content):
         def wrapped_content(*args, **kw):
-            if before_content != None: print(before_content)
+            if before_content != None:
+                print(before_content)
+                print('-'*80)
             result = content(*args, **kw)
-            if after_content != None: print(after_content)
+            if after_content != None:
+                print('-'*80)
+                print(after_content)
             return result
         return wrapped_content
     return wrapper
@@ -134,7 +138,6 @@ def create(
             except:
                 return options[-1], STATE
         if c == 'q': return ('main_menu', 'back'), STATE
-        if c == 'd': return ('main_menu', 'download'), STATE
         if c == '\x1b': # escape char
             terminate()
 
