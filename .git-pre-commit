@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Regex patterns to catch typical API key formats
+PATTERNS=(
+  'AKIA[0-9A-Z]{16}'                     # AWS Access Key ID
+  'AIza[0-9A-Za-z\-_]{35}'               # Google API Key
+  'sk_live_[0-9a-zA-Z]{24}'              # Stripe live secret key
+  '[A-Za-z0-9]{32}'                      # Generic 32-char API key
+  '-----BEGIN PRIVATE KEY-----'          # PEM private key
+)
+
+# Scan for suspicious patterns in staged files
+for pattern in "${PATTERNS[@]}"; do
+  if git diff --cached | grep -E -- "$pattern" > /dev/null; then
+    echo "❌ Commit blocked: API key or secret detected!"
+    echo "🔍 Matched pattern: $pattern"
+    echo "🛑 Please remove the key before committing."
+    exit 1
+  fi
+done
+
+exit 0
