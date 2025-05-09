@@ -31,8 +31,14 @@ class CharModel():
             logging.error('unable to connect to db')
             return None
 
-        self.state.name = 'Test'
-        self.state.lvl = 1
+        self.state.name = 'ignoi'
+        self.state.lvl = 10
+        self.state.stats = {
+            "str": 100,
+            "dex": 50,
+            "int": 200,
+        }
 
     def name(self): return self.state.name
     def lvl(self): return self.state.lvl
+    def stats(self): return self.state.stats
