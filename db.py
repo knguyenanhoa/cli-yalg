@@ -20,105 +20,44 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 """
 import os, logging
-import sqlite3
 from contextlib import contextmanager
-from sqlite3 import Error
+from models import *
 
-def create_connection(db_file):
-    """Create a database connection to the SQLite database specified by db_file.
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, relationship
 
-    Args:
-        db_file: Database file path
+DB_PATH = 'data/yalg.db'
+engine = create_engine(f"sqlite:///{DB_PATH}")
+Session = sessionmaker(bind=engine)
 
-    Returns:
-        Connection object or None
-    """
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-        logging.info(f"#create_connection: Connected to SQLite database: {db_file}")
-        return conn
-    except Error as e:
-        logging.error(f"#create_connection: Error connecting to database: {e}")
-        return None
+def initialize_database():
+    if not os.path.exists(os.path.dirname(DB_PATH)):
+        os.makedirs(os.path.dirname(DB_PATH))
 
-def create_table(conn, create_table_sql):
-    """Create a table from the create_table_sql statement.
+    BaseModel.metadata.create_all(engine)
+    session = Session()
 
-    Args:
-        conn: Connection object
-        create_table_sql: CREATE TABLE statement
-    """
-    try:
-        cursor = conn.cursor()
-        cursor.execute(create_table_sql)
-        logging.info("#create_table: Table created successfully")
-    except Error as e:
-        logging.error(f"#create_table: Error creating table: {e}")
+    # Seed db
+    # user
+    if not session.query(User).filter_by(username='admin').first():
+        admin = User(username='admin', email='admin@yagl.com')
+        session.add(admin)
+        session.commit()
 
-def initialize_database(db_file):
-    """Initialize the database with tables if they don't exist.
+    session.close()
 
-    Args:
-        db_file: Database file path
-
-    Returns:
-        Connection object or None
-    """
-    # Create connection
-    conn = create_connection(db_file)
-
-    if conn is None:
-        logging.error("#initialize_database: Cannot create the database connection.")
-        return None
-
-    # Define table creation SQL statements
-    # Add as many tables as you need
-    users_table_sql = """
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
-        email TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    """
-    create_table(conn, users_table_sql)
-    conn.cursor().execute(
-        """
-        INSERT OR REPLACE INTO users (
-            username, email
-        ) VALUES (?, ?)
-        """,
-        ('admin', 'admin@yagl.com')
-    )
-
-    items_table_sql = """
-    CREATE TABLE IF NOT EXISTS items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        description TEXT,
-        user_id INTEGER,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users (id)
-    );
-    """
-    create_table(conn, items_table_sql)
-
-    return conn
 
 @contextmanager
 def dbconn():
-    # Database file path
-    database = "data/yalg.db"
+    initialize_database()
+    session = Session()
 
-    # Initialize database
-    conn = initialize_database(database)
-
-    if conn is None:
-        logging.error("#dbconn: Database initialization failed.")
-        return None
-
-    yield(conn)
-
-    # Close the connection when done
-    conn.close()
+    try:
+        yield session
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        logging.error(f"dbconn: Session error - {e}")
+        raise
+    finally:
+        session.close()

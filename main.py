@@ -26,6 +26,7 @@ import sys, os, copy, logging, atexit
 # THESE ARE USED, DO NOT REMOVE
 # maybe implement an autoloader here....
 from menus import *
+from models import *
 from components import navigable_menus, store
 import db
 import char_model
@@ -60,9 +61,6 @@ def init(debug=False):
     # check dependencies
     try:
         import requests
-        # from pdfminer.high_level import extract_text
-        # from sklearn.feature_extraction.text import TfidfVectorizer
-        # import numpy as np
     except:
         print('dependencies not satisfied')
 
@@ -75,13 +73,13 @@ def init(debug=False):
 
 if __name__ == '__main__':
     init(debug=True)
-    with db.dbconn() as conn:
+    with db.dbconn() as dbsession:
         os.system('clear')
         navigable_menus.make_header('welcome to yalg. initializing...')
 
         NAVSTACK = [('main_menu', 'main')]
         STATE = store.Store()
-        STATE._dbconn = conn
+        STATE._dbsession = dbsession
         STATE.logged_in = False
         STATE.char = char_model.Base(conn)
 
