@@ -29,7 +29,6 @@ from menus import *
 from models import *
 from components import navigable_menus, store
 import db
-import char_model
 
 def route(action, NAVSTACK, STATE):
     action, NAVSTACK, STATE = getattr(
@@ -81,7 +80,6 @@ if __name__ == '__main__':
         STATE = store.Store()
         STATE._dbsession = dbsession
         STATE.curr_user = None
-        # STATE.char = char_model.Base(conn)
 
         os.system('clear')
         action, NAVSTACK, STATE = main_menu.main(NAVSTACK, STATE)
