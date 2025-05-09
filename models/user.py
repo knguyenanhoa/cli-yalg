@@ -22,8 +22,7 @@ Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import relationship
 
 from .base import BaseModel
 

@@ -22,31 +22,22 @@ Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 
 from components import navigable_menus
 from menus import main_menu
-import char_model
+from models import User
 
 @navigable_menus.nav_stack
 def login(NAVSTACK, STATE):
     navigable_menus.make_header('main > login')
 
-    if STATE.logged_in == True:
+    if STATE.curr_user != None:
         return main_menu.back(NAVSTACK, STATE)
 
     username = input('Who are you?: ')
     if username == '':
         return main_menu.back(NAVSTACK, STATE)
 
-    char = char_model.Base(username=username)
+    user = STATE._dbsession.query(User).filter_by(username=username).first()
 
-    cur = STATE._dbconn.cursor()
-    cur.execute(
-        "SELECT * FROM users WHERE username = ?",
-        (username,)
-    )
-    result = cur.fetchone()
-    if result != None:
-        STATE.char
-        print(result)
-        exit()
-        STATE.logged_in = True
+    if user != None:
+        STATE.curr_user = user
 
     return main_menu.back(NAVSTACK, STATE)

@@ -50,18 +50,17 @@ def main(NAVSTACK, STATE):
            in the menus
     """
 
-    after_content="""
-    note: vim-like nav
-    """
-
-    actions = [
-        ('char', 'char'),
-        ('man', 'man')
-    ]
-    if STATE.logged_in == False:
+    if STATE.curr_user == None:
         actions = [
             ('login', 'login'),
         ]
+        after_content = 'Please login'
+    else:
+        actions = [
+            ('char', 'char'),
+            ('man', 'man')
+        ]
+        after_content = STATE.curr_user.username
 
     action, STATE = navigable_menus.create(
         actions,

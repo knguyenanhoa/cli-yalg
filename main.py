@@ -80,8 +80,8 @@ if __name__ == '__main__':
         NAVSTACK = [('main_menu', 'main')]
         STATE = store.Store()
         STATE._dbsession = dbsession
-        STATE.logged_in = False
-        STATE.char = char_model.Base(conn)
+        STATE.curr_user = None
+        # STATE.char = char_model.Base(conn)
 
         os.system('clear')
         action, NAVSTACK, STATE = main_menu.main(NAVSTACK, STATE)
