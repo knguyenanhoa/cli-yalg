@@ -23,7 +23,7 @@ Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 import logging
 from components import store
 
-class CharModel():
+class Base():
     state = store.Store()
 
     def __init__(self, dbconn=None):

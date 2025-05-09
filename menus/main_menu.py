@@ -54,11 +54,17 @@ def main(NAVSTACK, STATE):
     note: vim-like nav
     """
 
+    actions = [
+        ('char', 'char'),
+        ('man', 'man')
+    ]
+    if STATE.logged_in == False:
+        actions = [
+            ('login', 'login'),
+        ]
+
     action, STATE = navigable_menus.create(
-        [
-            ('char', 'char'),
-            ('man', 'man')
-        ],
+        actions,
         header='main',
         STATE=STATE,
         after_content=after_content

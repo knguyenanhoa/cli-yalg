@@ -24,44 +24,15 @@ from components import navigable_menus
 from menus import main_menu
 
 @navigable_menus.nav_stack
-def char(NAVSTACK, STATE):
-    actions = [
-        ('char', 'stats'),
-    ]
+def login(NAVSTACK, STATE):
+    navigable_menus.make_header('main > login')
 
-    action, STATE = navigable_menus.create(
-        actions + [
-            ('main_menu', 'back'),
-            ('main_menu', 'back_to_main')
-        ], header='char > index', STATE=STATE
-    )
-    return action, NAVSTACK, STATE
+    if STATE.logged_in == True:
+        return main_menu.back(NAVSTACK, STATE)
 
-@navigable_menus.nav_stack
-def stats(NAVSTACK, STATE):
-    char = STATE.char
+    username = input('Who are you?: ')
+    if username == '':
+        return main_menu.back(NAVSTACK, STATE)
 
-    content = """
-    Name: {name} (Lv. {lvl})
-
-    Str: {str}
-    Dex: {dex}
-    Int: {int}
-    """.format(
-        name=char.name(),
-        lvl=char.lvl(),
-        str=char.stats()["str"],
-        dex=char.stats()["dex"],
-        int=char.stats()["int"],
-    )
-
-    action, STATE = navigable_menus.create(
-        [
-            ('main_menu', 'back'),
-            ('main_menu', 'back_to_main')
-        ],
-        header='char > stats',
-        STATE=STATE,
-        after_content=content
-    )
-    return action, NAVSTACK, STATE
+    STATE.logged_in = True
+    return main_menu.back(NAVSTACK, STATE)

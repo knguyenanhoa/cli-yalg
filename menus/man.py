@@ -20,8 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 """
 
-import sys, time, os, copy
-
 from components import navigable_menus
 from menus import main_menu
 
