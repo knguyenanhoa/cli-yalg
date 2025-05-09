@@ -81,6 +81,7 @@ if __name__ == '__main__':
 
         NAVSTACK = [('main_menu', 'main')]
         STATE = store.Store()
+        STATE._dbconn = conn
         STATE.logged_in = False
         STATE.char = char_model.Base(conn)
 

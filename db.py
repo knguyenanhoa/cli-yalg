@@ -83,6 +83,14 @@ def initialize_database(db_file):
     );
     """
     create_table(conn, users_table_sql)
+    conn.cursor().execute(
+        """
+        INSERT OR REPLACE INTO users (
+            username, email
+        ) VALUES (?, ?)
+        """,
+        ('admin', 'admin@yagl.com')
+    )
 
     items_table_sql = """
     CREATE TABLE IF NOT EXISTS items (

@@ -22,6 +22,7 @@ Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 
 from components import navigable_menus
 from menus import main_menu
+import char_model
 
 @navigable_menus.nav_stack
 def login(NAVSTACK, STATE):
@@ -34,5 +35,18 @@ def login(NAVSTACK, STATE):
     if username == '':
         return main_menu.back(NAVSTACK, STATE)
 
-    STATE.logged_in = True
+    char = char_model.Base(username=username)
+
+    cur = STATE._dbconn.cursor()
+    cur.execute(
+        "SELECT * FROM users WHERE username = ?",
+        (username,)
+    )
+    result = cur.fetchone()
+    if result != None:
+        STATE.char
+        print(result)
+        exit()
+        STATE.logged_in = True
+
     return main_menu.back(NAVSTACK, STATE)
