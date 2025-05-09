@@ -25,7 +25,7 @@ import sys, os, copy, atexit
 
 # THESE ARE USED, DO NOT REMOVE
 # maybe implement an autoloader here....
-from menus import main_menu, man, char
+from menus import *
 from components import navigable_menus, store
 
 def route(action, NAVSTACK, STATE):
