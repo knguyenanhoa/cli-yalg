@@ -37,16 +37,16 @@ def route(action, NAVSTACK, STATE):
     return action, NAVSTACK, STATE
 
 def init():
-    #  def switch_screen(name='MAIN'):
-        #  screens = {
-            #  "ALT": "\x1b[?1049h",
-            #  "MAIN": "\x1b[?1049l"
-        #  }
-        #  sys.stdout.write(screens[name])
-        #  sys.stdout.flush()
-#
-    #  atexit.register(switch_screen, 'MAIN')
-    #  switch_screen('ALT')
+    def switch_screen(name='MAIN'):
+        screens = {
+            "ALT": "\x1b[?1049h",
+            "MAIN": "\x1b[?1049l"
+        }
+        sys.stdout.write(screens[name])
+        sys.stdout.flush()
+
+    atexit.register(switch_screen, 'MAIN')
+    switch_screen('ALT')
 
     # setup folder struct
     try:
@@ -74,13 +74,13 @@ def init():
 if __name__ == '__main__':
     init()
     with db.dbconn() as conn:
-        # os.system('clear')
+        os.system('clear')
         navigable_menus.make_header('welcome to yalg. initializing...')
 
         NAVSTACK = [('main_menu', 'main')]
         STATE = store.Store()
 
-        # os.system('clear')
+        os.system('clear')
         action, NAVSTACK, STATE = main_menu.main(NAVSTACK, STATE)
         logging.info('TEST LOG')
         logging.info(conn)

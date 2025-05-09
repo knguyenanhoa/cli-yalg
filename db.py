@@ -68,37 +68,35 @@ def initialize_database(db_file):
     # Create connection
     conn = create_connection(db_file)
 
-    if conn is not None:
-        # Define table creation SQL statements
-        # Add as many tables as you need
-        users_table_sql = """
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL UNIQUE,
-            email TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-        """
-
-        items_table_sql = """
-        CREATE TABLE IF NOT EXISTS items (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            description TEXT,
-            user_id INTEGER,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        );
-        """
-
-        # Create tables
-        create_table(conn, users_table_sql)
-        create_table(conn, items_table_sql)
-
-        return conn
-    else:
+    if conn is None:
         logging.error("#initialize_database: Cannot create the database connection.")
         return None
+
+    # Define table creation SQL statements
+    # Add as many tables as you need
+    users_table_sql = """
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    """
+    create_table(conn, users_table_sql)
+
+    items_table_sql = """
+    CREATE TABLE IF NOT EXISTS items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT,
+        user_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id)
+    );
+    """
+    create_table(conn, items_table_sql)
+
+    return conn
 
 @contextmanager
 def dbconn():
@@ -110,7 +108,7 @@ def dbconn():
 
     if conn is None:
         logging.error("#dbconn: Database initialization failed.")
-        return
+        return None
 
     yield(conn)
 
