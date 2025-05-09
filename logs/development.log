@@ -1,0 +1,8 @@
+2025-05-09 09:45:55,402 - ERROR - #create_connection: Error connecting to database: unable to open database file
+2025-05-09 09:45:55,402 - ERROR - #initialize_database: Cannot create the database connection.
+2025-05-09 09:46:08,182 - ERROR - #create_connection: Error connecting to database: unable to open database file
+2025-05-09 09:46:08,182 - ERROR - #initialize_database: Cannot create the database connection.
+2025-05-09 09:46:08,182 - ERROR - #dbconn: Database initialization failed.
+2025-05-09 09:46:38,180 - INFO - #create_connection: Connected to SQLite database: data/yalg.db
+2025-05-09 09:46:38,187 - INFO - #create_table: Table created successfully
+2025-05-09 09:46:38,189 - INFO - #create_table: Table created successfully

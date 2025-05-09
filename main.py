@@ -21,12 +21,13 @@ Author contactable at k<dot>nguyen<dot>an<dot>hoa<at>gmail<dot>com
 """
 
 
-import sys, os, copy, atexit
+import sys, os, copy, logging, atexit
 
 # THESE ARE USED, DO NOT REMOVE
 # maybe implement an autoloader here....
 from menus import *
 from components import navigable_menus, store
+import db
 
 def route(action, NAVSTACK, STATE):
     action, NAVSTACK, STATE = getattr(
@@ -36,23 +37,25 @@ def route(action, NAVSTACK, STATE):
     return action, NAVSTACK, STATE
 
 def init():
-    def switch_screen(name='MAIN'):
-        screens = {
-            "ALT": "\x1b[?1049h",
-            "MAIN": "\x1b[?1049l"
-        }
-        sys.stdout.write(screens[name])
-        sys.stdout.flush()
+    #  def switch_screen(name='MAIN'):
+        #  screens = {
+            #  "ALT": "\x1b[?1049h",
+            #  "MAIN": "\x1b[?1049l"
+        #  }
+        #  sys.stdout.write(screens[name])
+        #  sys.stdout.flush()
+#
+    #  atexit.register(switch_screen, 'MAIN')
+    #  switch_screen('ALT')
 
-    atexit.register(switch_screen, 'MAIN')
-    switch_screen('ALT')
-
+    # setup folder struct
     try:
         os.mkdir("./data")
+        os.mkdir("./logs")
     except:
         pass
 
-    #check dependencies
+    # check dependencies
     try:
         import requests
         # from pdfminer.high_level import extract_text
@@ -61,18 +64,26 @@ def init():
     except:
         print('dependencies not satisfied')
 
+    # logs
+    logging.basicConfig(
+        filename='./logs/development.log',
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
 
 if __name__ == '__main__':
     init()
+    with db.dbconn() as conn:
+        # os.system('clear')
+        navigable_menus.make_header('welcome to yalg. initializing...')
 
-    os.system('clear')
-    navigable_menus.make_header('welcome to yalg. initializing...')
+        NAVSTACK = [('main_menu', 'main')]
+        STATE = store.Store()
 
-    NAVSTACK = [('main_menu', 'main')]
-    STATE = store.Store()
+        # os.system('clear')
+        action, NAVSTACK, STATE = main_menu.main(NAVSTACK, STATE)
+        logging.info('TEST LOG')
+        logging.info(conn)
 
-    os.system('clear')
-    action, NAVSTACK, STATE = main_menu.main(NAVSTACK, STATE)
-
-    while True:
-        action, NAVSTACK, STATE = route(action, NAVSTACK, STATE)
+        #  while True:
+            #  action, NAVSTACK, STATE = route(action, NAVSTACK, STATE)
