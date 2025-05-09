@@ -24,48 +24,62 @@ from components import navigable_menus
 from menus import main_menu
 
 @navigable_menus.nav_stack
-def char(NAVSTACK, STATE):
-    """
-    This is the index for this menu
-    """
-    actions = [
-        ('char', 'stats'),
+def quests(NAVSTACK, STATE):
+    char = STATE.curr_user
+
+    quest_list = [
+        ('quests', 'chores'),
+        ('quests', 'study')
     ]
 
+    content = """
+    Choose from the quests above
+    """
+
     action, STATE = navigable_menus.create(
-        actions + [
+        quest_list + [
             ('main_menu', 'back'),
             ('main_menu', 'back_to_main')
         ],
-        header='> char',
-        STATE=STATE
+        header='> quests',
+        STATE=STATE,
+        after_content=content
     )
     return action, NAVSTACK, STATE
 
 @navigable_menus.nav_stack
-def stats(NAVSTACK, STATE):
+def chores(NAVSTACK, STATE):
     char = STATE.curr_user
 
     content = """
-    Username: {username} (Lv. {lvl})
-
-    Str: {str}
-    Dex: {dex}
-    Int: {int}
-    """.format(
-        username=char.username,
-        lvl=char.lvl,
-        str=char.str,
-        dex=char.dex,
-        int=char.int,
-    )
+    Do any chores 5 times
+    """
 
     action, STATE = navigable_menus.create(
         [
             ('main_menu', 'back'),
             ('main_menu', 'back_to_main')
         ],
-        header='> char > stats',
+        header='> quests > chores',
+        STATE=STATE,
+        after_content=content
+    )
+    return action, NAVSTACK, STATE
+
+@navigable_menus.nav_stack
+def study(NAVSTACK, STATE):
+    char = STATE.curr_user
+
+    content = """
+    Do any study 5 times
+    """
+
+    action, STATE = navigable_menus.create(
+        [
+            ('main_menu', 'back'),
+            ('main_menu', 'back_to_main')
+        ],
+        header='> quests > study',
         STATE=STATE,
         after_content=content
     )

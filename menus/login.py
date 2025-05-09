@@ -26,7 +26,7 @@ from models import User
 
 @navigable_menus.nav_stack
 def login(NAVSTACK, STATE):
-    navigable_menus.make_header('main > login')
+    navigable_menus.make_header('> login')
 
     if STATE.curr_user != None:
         return main_menu.back(NAVSTACK, STATE)
@@ -39,5 +39,7 @@ def login(NAVSTACK, STATE):
 
     if user != None:
         STATE.curr_user = user
+    else:
+        navigable_menus.error('that user does not exist')
 
     return main_menu.back(NAVSTACK, STATE)

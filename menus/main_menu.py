@@ -58,13 +58,14 @@ def main(NAVSTACK, STATE):
     else:
         actions = [
             ('char', 'char'),
+            ('quests', 'quests'),
             ('man', 'man')
         ]
         after_content = STATE.curr_user.username
 
     action, STATE = navigable_menus.create(
         actions,
-        header='main',
+        header='welcome to yalg',
         STATE=STATE,
         after_content=after_content
     )

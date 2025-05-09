@@ -25,7 +25,7 @@ from menus import main_menu
 
 @navigable_menus.nav_stack
 def man(NAVSTACK, STATE):
-    navigable_menus.make_header('main > man')
+    navigable_menus.make_header('> man')
     print(' ')
     print('Navigation is vim-like')
     print('UP:  k       DOWN:   j      LEFT: h      RIGHT: l')
