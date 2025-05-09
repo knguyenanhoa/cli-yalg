@@ -32,6 +32,12 @@ class User(BaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String, unique=True, nullable=False)
     email = Column(String, nullable=False)
+
+    lvl = Column(Integer)
+    str = Column(Integer) # strength
+    dex = Column(Integer) # dexterity
+    int = Column(Integer) # intelligence
+
     created_at = Column(DateTime, default=datetime.utcnow)
 
     # items = relationship("Item", back_populates="user")

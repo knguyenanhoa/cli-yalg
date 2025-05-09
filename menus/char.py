@@ -39,20 +39,20 @@ def char(NAVSTACK, STATE):
 
 @navigable_menus.nav_stack
 def stats(NAVSTACK, STATE):
-    char = STATE.char
+    char = STATE.curr_user
 
     content = """
-    Name: {name} (Lv. {lvl})
+    Username: {username} (Lv. {lvl})
 
     Str: {str}
     Dex: {dex}
     Int: {int}
     """.format(
-        name=char.name(),
-        lvl=char.lvl(),
-        str=char.stats()["str"],
-        dex=char.stats()["dex"],
-        int=char.stats()["int"],
+        username=char.username,
+        lvl=char.lvl,
+        str=char.str,
+        dex=char.dex,
+        int=char.int,
     )
 
     action, STATE = navigable_menus.create(

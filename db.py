@@ -40,7 +40,14 @@ def initialize_database():
     # Seed db
     # user
     if not session.query(User).filter_by(username='admin').first():
-        admin = User(username='admin', email='admin@yagl.com')
+        admin = User(
+            username='admin',
+            email='admin@yagl.com',
+            lvl=1,
+            str=10,
+            dex=10,
+            int=10
+        )
         session.add(admin)
         session.commit()
 
