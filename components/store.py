@@ -26,12 +26,12 @@ class Store():
     SET: object.attribute = data (any type)
     GET: object.attribute
 
-    Each storage slot (attribute) will become stale after N GET ops
-    N set on init (default 20)
-    Stale count is reset on writing to the attribute
+    - Each storage slot (attribute) will become stale after N GET ops
+    - N set on init (default -1) so objects don't expire
+    - If objects do expire, stale count is reset on writing to the attribute
     """
-    def __init__(self, stale_count=20):
-        object.__setattr__(self, 'stale_threshold', stale_count)
+    def __init__(self, stale_count=-1):
+        object.__setattr__(self, 'store_stale_threshold', stale_count)
 
     def __getattribute__(self, key):
         # this is to prevent inf recursion as
@@ -39,25 +39,26 @@ class Store():
         if key in dir(object):
             return object.__getattribute__(self, key)
 
-        if key == 'stale_threshold':
-            raise AttributeError
+        if key == 'store_stale_threshold': raise AttributeError
 
         k = object.__getattribute__(self, key)['key']
         c = object.__getattribute__(self, key)['stale_count']
-        sc = object.__getattribute__(self, 'stale_threshold')
+        sc = object.__getattribute__(self, 'store_stale_threshold')
 
-        object.__setattr__(self, key, {'key': k, 'stale_count': c + 1})
+        # decrease stale count on read
+        object.__setattr__(self, key, {'key': k, 'stale_count': c - 1})
 
-        if object.__getattribute__(self, key)['stale_count'] > sc:
-            object.__setattr__(self, key, {'key': [], 'stale_count': 0})
+        # reset object value when object is stale
+        if object.__getattribute__(self, key)['stale_count'] == 0:
+            object.__setattr__(self, key, {'key': [], 'stale_count': sc})
 
         return object.__getattribute__(self, key)['key']
 
     def __getattr__(self, key):
-        if key == 'stale_threshold':
-            raise AttributeError
+        if key == 'store_stale_threshold': raise AttributeError
 
-        object.__setattr__(self, key, {'key': [], 'stale_count': 0})
+        sc = object.__getattribute__(self, 'store_stale_threshold')
+        object.__setattr__(self, key, {'key': [], 'stale_count': sc})
         return object.__getattribute__(self, key)['key']
 
     def __setattr__(self, key, val):
@@ -66,6 +67,7 @@ class Store():
         replacement assignment only
         writing to store resets stale count
         """
-        object.__setattr__(self, key, {'key': val, 'stale_count': 0})
+        if key == 'store_stale_threshold': raise AttributeError
 
-        #TODO: add something to inspect storage
+        sc = object.__getattribute__(self, 'store_stale_threshold')
+        object.__setattr__(self, key, {'key': val, 'stale_count': sc})

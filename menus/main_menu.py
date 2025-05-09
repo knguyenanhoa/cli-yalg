@@ -49,8 +49,6 @@ def main(NAVSTACK, STATE):
         4. NOTE that the function names will match those selectable
            in the menus
     """
-    # refresh search results when back to main menu
-    STATE.search_results = []
 
     after_content="""
     note: vim-like nav
