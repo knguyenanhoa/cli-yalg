@@ -26,37 +26,13 @@ from sqlalchemy.orm import relationship
 
 from .base import BaseModel
 
-class User(BaseModel):
-    __tablename__ = 'users'
+class Quest(BaseModel):
+    __tablename__ = 'quests'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String, unique=True, nullable=False)
-    email = Column(String, nullable=False)
-
-    attr_lvl = Column(Integer) # your level
-    attr_str = Column(Integer) # strength
-    attr_dex = Column(Integer) # dexterity
-    attr_con = Column(Integer) # constitution
-    attr_int = Column(Integer) # intelligence
-    attr_wis = Column(Integer) # wisdom
-    attr_cha = Column(Integer) # charisma
+    code = Column(String, unique=True, nullable=False)
+    name = Column(String)
+    desc = Column(Text)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow)
-
-    def get_lvl(self):
-        return int(self.attr_lvl) if self.attr_lvl is not None else 0
-    def get_str(self):
-        return int(self.attr_str) if self.attr_str is not None else 0
-    def get_dex(self):
-        return int(self.attr_dex) if self.attr_dex is not None else 0
-    def get_con(self):
-        return int(self.attr_con) if self.attr_con is not None else 0
-    def get_int(self):
-        return int(self.attr_int) if self.attr_int is not None else 0
-    def get_wis(self):
-        return int(self.attr_wis) if self.attr_wis is not None else 0
-    def get_cha(self):
-        return int(self.attr_cha) if self.attr_cha is not None else 0
-
-    # items = relationship("Item", back_populates="user")

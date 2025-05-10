@@ -49,15 +49,21 @@ def stats(NAVSTACK, STATE):
     content = """
     Username: {username} (Lv. {lvl})
 
-    Str: {str}
-    Dex: {dex}
-    Int: {int}
+    STR: {str:03} (Physical power)
+    DEX: {dex:03} (Agility, reflexes)
+    CON: {con:03} (Endurance)
+    INT: {int:03} (Logic, memory, knowledge)
+    WIS: {wis:03} (Perception, insight)
+    CHA: {cha:03} (Social skills)
     """.format(
         username=char.username,
-        lvl=char.lvl,
-        str=char.str,
-        dex=char.dex,
-        int=char.int,
+        lvl=char.get_lvl(),
+        str=char.get_str(),
+        dex=char.get_dex(),
+        con=char.get_con(),
+        int=char.get_int(),
+        wis=char.get_wis(),
+        cha=char.get_cha(),
     )
 
     action, STATE = navigable_menus.create(

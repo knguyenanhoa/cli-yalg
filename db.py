@@ -43,10 +43,9 @@ def initialize_database():
         admin = User(
             username='admin',
             email='admin@yagl.com',
-            lvl=1,
-            str=10,
-            dex=10,
-            int=10
+            attr_lvl=1,
+            attr_str=10, attr_dex=10, attr_con=10,
+            attr_int=10, attr_wis=10, attr_cha=10
         )
         session.add(admin)
         session.commit()

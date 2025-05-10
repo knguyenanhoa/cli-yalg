@@ -41,7 +41,8 @@ def back(NAVSTACK, STATE):
 def main(NAVSTACK, STATE):
     """
     create a new menu by:
-        1. add to this menu e.g ('new', 'new')
+        1. add to this menu e.g ('new', 'new'), each entry is the index of the
+        sub menu
         2. create a file under menus/ with the same name e.g. 'new'
         3. the file should contain 'new' as an indexing function, implemented
            similarly to this index function. all other functions are
