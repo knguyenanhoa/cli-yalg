@@ -35,7 +35,7 @@ def login(NAVSTACK, STATE):
     if username == '':
         return ('main_menu', 'back'), NAVSTACK, STATE
 
-    user = STATE._dbsession.query(User).filter_by(username=username).first()
+    user = User.find(STATE._dbsession, username=username)
 
     if user != None:
         STATE.curr_user = user

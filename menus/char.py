@@ -90,6 +90,7 @@ def set_str(NAVSTACK, STATE):
         str=char.get_str(),
     ))
 
-    # update str on input here
+    char.set_str(int(new_str))
+    char.save(STATE._dbsession)
 
     return ('main_menu', 'back'), NAVSTACK, STATE

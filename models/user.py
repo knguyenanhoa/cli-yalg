@@ -46,8 +46,14 @@ class User(BaseModel):
 
     def get_lvl(self):
         return int(self.attr_lvl) if self.attr_lvl is not None else 0
+
     def get_str(self):
         return int(self.attr_str) if self.attr_str is not None else 0
+    def set_str(self, val):
+        if val is not None:
+            self.attr_str = int(val)
+        return True
+
     def get_dex(self):
         return int(self.attr_dex) if self.attr_dex is not None else 0
     def get_con(self):
@@ -58,5 +64,14 @@ class User(BaseModel):
         return int(self.attr_wis) if self.attr_wis is not None else 0
     def get_cha(self):
         return int(self.attr_cha) if self.attr_cha is not None else 0
+
+    @classmethod
+    def find(cls, dbsession, **kwargs):
+        username = kwargs.get('username')
+        return dbsession.query(User).filter_by(username=username).first()
+
+    def save(self, dbsession):
+        dbsession.add(self)
+        dbsession.commit()
 
     # items = relationship("Item", back_populates="user")
