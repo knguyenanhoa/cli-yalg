@@ -29,11 +29,11 @@ def login(NAVSTACK, STATE):
     navigable_menus.make_header('> login')
 
     if STATE.curr_user != None:
-        return main_menu.back(NAVSTACK, STATE)
+        return ('main_menu', 'back'), NAVSTACK, STATE
 
     username = input('Who are you?: ')
     if username == '':
-        return main_menu.back(NAVSTACK, STATE)
+        return ('main_menu', 'back'), NAVSTACK, STATE
 
     user = STATE._dbsession.query(User).filter_by(username=username).first()
 
@@ -42,4 +42,4 @@ def login(NAVSTACK, STATE):
     else:
         navigable_menus.error('that user does not exist')
 
-    return main_menu.back(NAVSTACK, STATE)
+    return ('main_menu', 'back'), NAVSTACK, STATE

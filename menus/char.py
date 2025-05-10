@@ -68,6 +68,7 @@ def stats(NAVSTACK, STATE):
 
     action, STATE = navigable_menus.create(
         [
+            ('char', 'set_str'),
             ('main_menu', 'back'),
             ('main_menu', 'back_to_main')
         ],
@@ -76,3 +77,19 @@ def stats(NAVSTACK, STATE):
         after_content=content
     )
     return action, NAVSTACK, STATE
+
+@navigable_menus.nav_stack
+def set_str(NAVSTACK, STATE):
+    navigable_menus.make_header('> char > stats > set str')
+    char = STATE.curr_user
+
+    new_str = input("""
+    Current STR: {str:03} (Physical power)
+    New STR?
+    """.format(
+        str=char.get_str(),
+    ))
+
+    # update str on input here
+
+    return ('main_menu', 'back'), NAVSTACK, STATE

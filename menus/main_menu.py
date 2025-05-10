@@ -25,13 +25,14 @@ import sys, time, os, copy
 from components import navigable_menus
 
 def back_to_main(NAVSTACK, STATE):
+    action = ('main_menu', 'main')
     NAVSTACK = [('main_menu', 'main')]
-    return ('main_menu', 'main'), NAVSTACK, STATE
+    return action, NAVSTACK, STATE
 
 def back(NAVSTACK, STATE):
     try:
-        NAVSTACK.pop() #pop back action
-        NAVSTACK.pop() #pop current action
+        NAVSTACK.pop() # pop the 'back' action first
+        NAVSTACK.pop()# pop the actual current action
         return NAVSTACK[-1], NAVSTACK, STATE
     except:
         # pretty much do nothing - should already be at root node

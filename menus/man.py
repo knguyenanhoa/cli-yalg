@@ -39,4 +39,4 @@ def man(NAVSTACK, STATE):
     print('Press any key to return')
 
     navigable_menus.getch()
-    return main_menu.back(NAVSTACK, STATE)
+    return ('main_menu', 'back'), NAVSTACK, STATE
